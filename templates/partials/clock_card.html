@@ -1,0 +1,28 @@
+<div class="card clock-card">
+    <div class="card-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        
+        <div id="clock-time" style="font-size: 2.5rem; font-weight: 800; line-height: 1; letter-spacing: 2px;">
+            --:--:--
+        </div>
+        <div id="clock-date" style="font-size: 1rem; color: var(--accent-primary); margin-top: 5px; font-weight: 600;">
+            Loading...
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            function updateClock() {
+                const now = new Date();
+
+                const timeStr = now.toLocaleTimeString('en-US', { hour12: true });
+                const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                
+                document.getElementById('clock-time').innerText = timeStr;
+                document.getElementById('clock-date').innerText = dateStr;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+        })();
+    </script>
+</div>

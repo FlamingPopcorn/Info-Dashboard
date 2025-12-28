@@ -1,0 +1,52 @@
+<div class="card weather-card">
+    <div class="card-header">
+        <span class="card-title">Weather</span>
+        <div class="icon-box">{{ weather_icon | safe }}</div>
+    </div>
+    
+    <div class="weather-main">
+        <div class="temp-big">{{ current_temp }}°</div>
+        <div class="weather-condition">{{ condition_text }}</div>
+        <div class="weather-range">
+            H: {{ temp_high }}° &nbsp; L: {{ temp_low }}°
+        </div>
+    </div>
+    <div class="forecast-row" style="overflow:hidden">
+        <div class="scroll-x-content">
+            <div class="forecast-days-row">
+            {% for day in forecast_days %}
+                <div class="forecast-day">
+                    <div style="text-align: center;">{{ day['day'] }}</div>
+                    <div class="forecast-row">
+                        {% for hour in day['hour_data'] %}
+                            <div class="forecast-col">
+                            <span>{{ hour['formatted_time'] }}</span>
+                            <span>{{ hour['icon_PNG'] | safe }}</span>
+                            <span>{{ hour['main']['temp'] | round | int }}°</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="scroll-x-content">
+            <div class="forecast-days-row">
+            {% for day in forecast_days %}
+                <div class="forecast-day">
+                    <div style="text-align: center;">{{ day['day'] }}</div>
+                    <div class="forecast-row">
+                        {% for hour in day['hour_data'] %}
+                            <div class="forecast-col">
+                            <span>{{ hour['formatted_time'] }}</span>
+                            <span>{{ hour['icon_PNG'] | safe }}</span>
+                            <span>{{ hour['main']['temp'] | round | int }}°</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-grid">
+
+        <section id="weather">
+            <div hx-get="/get-weather" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML" 
+                style="height:100%; width:100%;"> <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Weather...
+                </div>
+            </div>
+        </section>
+
+        <section id="shipping">      
+            <div hx-get="/get-shipping" 
+                hx-trigger="load, every 43200s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Tracking...
+                </div>
+            </div>
+        </section>
+
+        <section id="calendar">
+            <div hx-get="/calendar" 
+                hx-trigger="load, every 3600s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Calendar...
+                </div>
+            </div>
+        </section>
+
+        <section id="calendar-events">
+            <div hx-get="/get-calendar-events" 
+                hx-trigger="load, every 3600s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Agenda...
+                </div>
+            </div>
+        </section>
+
+        <section id="tasks">
+            <div hx-get="/get-tasks" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Tasks...
+                </div>
+            </div>
+        </section>
+
+        <section id="canvas">
+            <div hx-get="/get-canvas" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Canvas Tasks...
+                </div>
+            </div>
+        </section>
+
+        <section id="countdown">
+            <div hx-get="/get-countdown" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Countdown Timer...
+                </div>
+            </div>
+        </section>
+
+        <section id="sticky-note">
+            <div hx-get="/get-sticky-note" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Note...
+                </div>
+            </div>
+        </section>
+
+        <section id="steam">
+            <div hx-get="/get-steam" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Steam Info...
+                </div>
+            </div>
+        </section>
+
+        <section id="sysinfo">
+            <div hx-get="/get-system" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading System...
+                </div>
+            </div>
+        </section>
+
+        <section id="network-graph">
+            <div hx-get="/get-network-graph" 
+                hx-trigger="load, every 300s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                    Loading Network Graph...
+                </div>
+            </div>
+        </section>
+
+        <section id="sensors">
+            <div hx-get="/get-sensors"  
+                hx-trigger="load, every 60s" 
+                hx-swap="innerHTML"
+                style="height:100%; width:100%;">
+                <div style="height:100%; display:flex; align-items:center; justify-content:center;">
+                Loading Sensors...
+            </div>
+        </section>
+
+        <section id="news">
+            <div hx-get="/get-news" 
+                hx-trigger="load, every 1800s" 
+                hx-swap="innerHTML" 
+                style="height:100%; width:100%;">
+                Loading News...
+            </div>
+        </section>
+
+        <section id="clock">
+            <div hx-get="/get-clock" 
+                hx-trigger="load" 
+                hx-swap="innerHTML" 
+                style="height:100%; width:100%;">
+                Loading Clock...
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>

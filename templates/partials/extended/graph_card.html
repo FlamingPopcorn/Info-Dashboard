@@ -1,0 +1,28 @@
+<div class="card graph-card">
+    <div class="card-header">
+        <span class="card-title">Network Latency</span>
+    </div>
+    
+    <div class="card-body">
+        <div class="chart-container" style="position: relative; width: 100%; height: 100%;">
+            <canvas id="networkChart"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        // We wrap this in a check to ensure Chart is loaded
+        if (typeof Chart !== 'undefined') {
+            var ctx = document.getElementById('networkChart').getContext('2d');
+            
+            // Destroy existing chart if it exists (prevents glitching on refresh)
+            if (window.myNetworkChart) {
+                window.myNetworkChart.destroy();
+            }
+
+            var config = {{ chart_config | tojson }};
+            
+            // Save to window so we can destroy it next time
+            window.myNetworkChart = new Chart(ctx, config);
+        }
+    </script>
+</div>

@@ -1,0 +1,42 @@
+<div class="card tasks-card">
+    <div class="card-header">
+        <span class="card-title">Current Tasks</span>
+        <a href="https://monday.com" target="_blank" style="font-size: 0.7rem; color: var(--accent-secondary); text-decoration: none;">View Board &rarr;</a>
+    </div>
+
+    <div class="card-body">
+        <div class="task-list">
+            {% for task in tasks %}
+            <div class="task-item">
+                <div class="task-status-indicator" style="background-color: {{ task.status_color }};"></div>
+                
+                <div class="task-content">
+                    <div class="task-top-row">
+                        <span class="task-name {{ 'completed' if task['status'] == 'Done' else '' }}">
+                            {{ task.name }}
+                        </span>
+
+                        <div class="task-meta">
+                            <span class="meta-status" style="color: {{ task['status_color'] }}">{{ task['status'] }}</span>
+                            {% if task['due_date'] %}
+                            <span class="meta-separator">•</span>
+                            <span class="meta-date">{{ task['due_date'] }}</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- {% if task['priority'] == 'High' %}
+                        <span class="badge-priority">!</span>
+                        {% endif %} -->
+                    </div>
+                    
+
+                </div>
+            </div>
+            {% else %}
+                <div style="text-align: center; color: var(--text-muted); padding: 20px;">
+                    No active tasks
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

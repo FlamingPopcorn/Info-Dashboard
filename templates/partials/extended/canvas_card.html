@@ -1,0 +1,19 @@
+<div class="card canvas-card">
+    <div class="card-header">
+        <span class="card-title" style="color: #e11d48;">Assignments</span> </div>
+    <div class="card-body">
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+            {% for t in tasks %}
+            <li style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                <div style="font-size: 0.9rem; font-weight: 500;">{{ t.title }}</div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+                    <span>{{ t.class }}</span>
+                    <span>{{ t.due }}</span>
+                </div>
+            </li>
+            {% else %}
+            <li style="text-align: center; padding: 10px; color: var(--text-muted);">No upcoming assignments</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

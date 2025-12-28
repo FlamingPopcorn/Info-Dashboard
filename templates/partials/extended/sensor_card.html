@@ -1,0 +1,20 @@
+<div class="card sensor-card">
+    <div class="card-header">
+        <span class="card-title">Environment</span>
+    </div>
+    <div class="card-body">
+        <div class="sensor-list">
+            {% for s in sensors %}
+            <div class="sensor-row">
+                <div class="sensor-name">{{ s.name }}</div>
+                <div class="sensor-data">
+                    <span class="sensor-value {{ 'warning' if s.status == 'warning' else '' }}">
+                        {{ s.value }}
+                    </span>
+                    <small class="sensor-unit">{{ s.unit }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,469 @@
+/* =========================================
+   1. GLOBAL RESET & THEME
+   ========================================= */
+:root {
+    --bg-body: #1d1d1d;       /* Your Kiosk Background */
+    --bg-card: #1e293b;       /* Card Background */
+    --text-main: #f8fafc;     /* White text */
+    --text-muted: #94a3b8;    /* Muted Grey text */
+    
+    /* Accents */
+    --accent-primary: #8b5cf6;   /* Electric Purple */
+    --accent-secondary: #06b6d4; /* Cyan Blue */
+    --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    
+    /* Semantic Status Colors */
+    --success: #10b981;  /* Emerald Green (for 'Done') */
+    --danger:  #ef4444;  /* Red (for 'Stuck' or 'High Priority') */
+    --warning: #f59e0b;  /* Amber/Orange (for 'Working on it') */
+    --info:    #3b82f6;  /* Blue (for informational tags) */
+
+    --radius: 12px;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Clean Kiosk Look */
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+* { box-sizing: border-box; }
+
+/* =========================================
+   2. DASHBOARD GRID (Your Layout)
+   ========================================= */
+.dashboard-grid {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    /* Your 10x7 Specific Grid */
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-auto-flow: dense;
+    gap: 12px;
+    padding: 12px;
+}
+
+/* SECTIONS: These act as wrappers.
+   We strip your old borders because the 'Card' inside provides the look.
+   We use Flexbox to force the inner Card to fill the section.
+*/
+.dashboard-grid > section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 0; /* Crucial for scrolling */
+    min-width: 0;
+}
+
+/* =========================================
+   3. GRID POSITIONING (Your IDs)
+   ========================================= */
+#weather {
+    grid-column: span 3;
+    grid-row: span 3;
+}
+
+#calendar {
+    grid-column: 8 / span 3;
+    grid-row: 1 / span 3;
+}
+
+#calendar-events {
+    grid-column: 9 / span 2;
+    grid-row: 4 / span 4;
+}
+
+#tasks {
+    grid-column: 6 / span 2;
+    grid-row: 1 / span 3;
+}
+
+#shipping {
+    grid-column: 7 / span 2;
+    grid-row: 4 / span 4;
+}
+
+#sysinfo {
+    grid-column: 1 / span 1;
+    grid-row: 6 / span 2;
+}
+
+#clock {
+    grid-column: 5 / span 2;
+    grid-row: 4 / span 1;
+}
+
+#countdown {
+    grid-column: 5 / span 2;
+    grid-row: 7 / span 1;
+}
+
+#sticky-note {
+    grid-column: 5 / span 2;
+    grid-row: 6 / span 1;
+}
+
+/* --- Extended Card Placements --- */
+
+#network-graph {
+    grid-column: 2 / span 2;
+    grid-row: 6 / span 2;
+}
+
+#sensors {
+    grid-column: 2 / span 1; 
+    grid-row: 4 / span 2;
+}
+
+#simulation {
+    grid-column: 5 / span 2;
+    grid-row: 6 / span 2;
+}
+
+#news {
+    grid-column: 3 / span 2;
+    grid-row: 4 / span 2;
+}
+
+#canvas {
+    grid-column: 4 / span 2;
+    grid-row: 1 / span 3;
+}
+
+#steam {
+    grid-column: 1 / span 1;
+    grid-row: 4 / span 2;
+}
+
+/* =========================================
+   4. CARD COMPONENT (The Look)
+   ========================================= */
+.card {
+    background-color: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 15px; /* Slightly tighter padding for complex grids */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    
+    /* Layout Logic */
+    display: flex;
+    flex-direction: column;
+    height: 100%;     
+    width: 100%;
+    overflow: hidden; 
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-shrink: 0; 
+}
+
+.card-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Expands to fill empty space */
+.card-body {
+    flex: 1;           
+    min-height: 0;     
+    overflow: hidden;  /* HIDDEN SCROLLBARS */
+    display: flex;     
+    flex-direction: column;
+}
+
+/* =========================================
+   5. MODULE SPECIFICS (Weather, Cal, etc.)
+   ========================================= */
+
+/* Month View */
+.calendar-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr); text-align: center;
+    font-size: 0.7rem; color: var(--text-muted); margin-bottom: 5px;
+}
+.calendar-days {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: minmax(0, 1fr); /* Shrink rows to fit */
+    height: 100%; gap: 1px;
+}
+.day-cell {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; border-radius: 4px; min-height: 0; line-height: 1;
+}
+.day-cell.today {
+    background: var(--accent-primary); color: white; font-weight: 700; border-radius: 6px;
+}
+
+/* Lists (Events/Tasks) */
+.event-list, .task-list {
+    display: flex; flex-direction: column; overflow: hidden; height: 100%;
+}
+.event-item, .task-item {
+    display: flex; flex-direction: column; align-items: stretch; padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.event-item-border {
+    padding: 8px;
+    position: relative;
+}
+.event-item-border::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px; /* The thickness of your left border */
+  background: var(--accent-gradient);
+  border-radius: 5px 0 0 5px; /* Matches corner rounding if needed */
+}
+.event-item-header {
+    display: flex; flex-direction: row; flex-wrap: nowrap; gap: 3px; align-items: stretch;
+}
+.event-time {
+    display: flex; align-items: stretch; flex-wrap: nowrap; text-wrap: nowrap; text-align: left;
+    font-weight: 700; font-size: 0.77rem;
+}
+.event-location {
+    display: flex; flex-wrap: nowrap; text-wrap: nowrap; overflow: hidden; justify-content: right;
+    width: 100%; font-size: 0.75rem;
+}
+.event-info, .task-text { flex-grow: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* Monday.com Task Styles */
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    overflow-y: auto; /* Scrolls if you have too many tasks */
+    padding-right: 5px; /* Space for scrollbar */
+}
+
+.task-item {
+    display: flex;
+    align-items: stretch; /* Stretches the status bar */
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    overflow: hidden; /* Keeps the status bar inside the curve */
+    min-height: 45px;
+}
+
+/* The colored bar on the left */
+.task-status-indicator {
+    width: 4px;
+    flex-shrink: 0;
+    /* Color set inline by HTML */
+}
+
+.task-content {
+    flex-grow: 1;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.task-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.task-name.completed {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.badge-priority {
+    background: var(--danger);
+    color: white;
+    font-size: 0.7rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.task-meta {
+    font-size: 0.75rem;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.meta-status {
+    font-weight: 600;
+    /* Color set inline */
+}
+
+.meta-separator {
+    margin: 0 5px;
+    color: var(--text-muted);
+}
+
+.meta-date {
+    color: var(--text-muted);
+}
+
+/* Weather */
+.weather-main { 
+    flex-grow: 1; display: flex; flex-direction: column; 
+    justify-content: center; align-items: center; 
+}
+.temp-big { font-size: 3rem; font-weight: 800; line-height: 1; 
+    background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.forecast-row { display: flex; justify-content: space-between; margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);}
+.forecast-days-row { display: flex; justify-content: space-between; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);}
+.forecast-col { display: flex; flex-direction: column; flex-wrap: nowrap; text-align: center }
+.forecast-day { padding-left: 10px; padding-right: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1);}
+
+/* Resources */
+.resource-item { margin-bottom: 8px; }
+.progress-bg { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+.progress-fill { height: 100%; background: var(--accent-gradient); border-radius: 3px; }
+
+/* =========================================
+   SHIPPING / TRACKING STYLES
+   ========================================= */
+
+/* --- Timeline & Tracking Info --- */
+
+.track-info { 
+    margin-bottom: 15px; 
+    flex-shrink: 0;
+}
+
+.track-id { 
+    font-size: 0.8rem; 
+    color: var(--accent-secondary); /* Cyan color for tracking # */
+    font-family: monospace; 
+    display: block; 
+    margin-top: 2px;
+}
+
+/* The vertical line container */
+.timeline { 
+    position: relative; 
+    padding-left: 12px; 
+    margin-top: 10px; 
+    flex-grow: 1; 
+    /* If the list is huge, hide the overflow so it doesn't break layout */
+    overflow: hidden; 
+}
+
+/* The vertical line itself */
+.timeline::before { 
+    content: ''; 
+    position: absolute; 
+    left: 3px; 
+    top: 5px; 
+    bottom: 5px; 
+    width: 2px; 
+    background: rgba(255,255,255,0.1); 
+}
+
+/* Individual update item */
+.tl-item { 
+    position: relative; 
+    padding-left: 20px; 
+    margin-bottom: 15px; 
+}
+
+/* The dot on the line */
+.tl-dot { 
+    width: 8px; 
+    height: 8px; 
+    background: var(--bg-card); /* Matches card bg to look like a 'cutout' */
+    border: 2px solid var(--text-muted); 
+    border-radius: 50%; 
+    position: absolute; 
+    left: -3px; 
+    top: 5px; 
+    z-index: 2; 
+}
+
+/* Highlight the most recent update */
+.tl-item.active .tl-dot { 
+    background: var(--accent-primary); 
+    border-color: var(--accent-primary); 
+    box-shadow: 0 0 8px var(--accent-primary); 
+}
+
+.tl-status { 
+    font-weight: 600; 
+    font-size: 0.9rem; 
+    line-height: 1.2;
+}
+
+.tl-time { 
+    font-size: 0.75rem; 
+    color: var(--text-muted); 
+    margin-top: 2px;
+}
+
+.scroll-x-content {
+  animation: autoscroll-x 30s linear infinite; /* Adjust duration as needed */
+  /* Ensures content does not wrap if it's horizontal */
+  white-space: nowrap; 
+}
+
+@keyframes autoscroll-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Translate by 50% to move the first content block entirely out of view */
+    transform: translateX(-100%); 
+  }
+}
+
+.scroll-y-content {
+  animation: autoscroll-y 30s linear infinite; /* Adjust duration as needed */
+  /* Ensures content does not wrap if it's horizontal */
+  white-space: nowrap; 
+}
+
+@keyframes autoscroll-y {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    /* Translate by 50% to move the first content block entirely out of view */
+    transform: translateY(-100%); 
+  }
+}
+
+.sensor-list { display: flex; flex-direction: column; justify-content: space-around; height: 100%; }
+.sensor-row { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); 
+}
+.sensor-row:last-child { border-bottom: none; }
+.sensor-name { font-size: 0.9rem; color: var(--text-muted); }
+.sensor-data { font-family: 'Consolas', monospace; font-weight: 700; font-size: 1.1rem; }
+.sensor-unit { font-size: 0.7rem; color: var(--text-muted); margin-left: 2px; }
+.sensor-value.warning { color: #f59e0b; } /* Amber warning color */

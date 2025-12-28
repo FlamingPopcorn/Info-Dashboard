@@ -1,0 +1,85 @@
+<div class="card sim-card" style="padding: 0;">
+    <canvas id="lifeCanvas" style="width: 100%; height: 100%; border-radius: 12px;"></canvas>
+    
+    <script>
+        (function() {
+            const canvas = document.getElementById('lifeCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // --- CONFIGURATION ---
+            const resolution = 5; // Size of the squares (pixels)
+            const refreshRate = 200; // Speed in milliseconds (Higher = Slower)
+            // ---------------------
+
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            
+            const COLS = Math.floor(canvas.width / resolution);
+            const ROWS = Math.floor(canvas.height / resolution);
+
+            function buildGrid() {
+                return new Array(COLS).fill(null)
+                    .map(() => new Array(ROWS).fill(null)
+                    .map(() => Math.floor(Math.random() * 2)));
+            }
+            
+            let grid = buildGrid();
+
+            function draw() {
+                ctx.fillStyle = '#1e293b'; // Background color
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                for (let col = 0; col < COLS; col++) {
+                    for (let row = 0; row < ROWS; row++) {
+                        const cell = grid[col][row];
+                        ctx.beginPath();
+                        ctx.rect(col * resolution, row * resolution, resolution, resolution);
+                        // Using your Accent Purple for live cells
+                        ctx.fillStyle = cell ? '#8b5cf6' : '#1e293b'; 
+                        ctx.fill();
+                    }
+                }
+            }
+
+            function update() {
+                const nextGrid = grid.map(arr => [...arr]);
+
+                for (let col = 0; col < COLS; col++) {
+                    for (let row = 0; row < ROWS; row++) {
+                        const cell = grid[col][row];
+                        let numNeighbors = 0;
+                        for (let i = -1; i < 2; i++) {
+                            for (let j = -1; j < 2; j++) {
+                                if (i === 0 && j === 0) continue;
+                                const x_cell = col + i;
+                                const y_cell = row + j;
+
+                                if (x_cell >= 0 && y_cell >= 0 && x_cell < COLS && y_cell < ROWS) {
+                                    numNeighbors += grid[x_cell][y_cell];
+                                }
+                            }
+                        }
+
+                        // Game of Life Rules
+                        if (cell === 1 && (numNeighbors < 2 || numNeighbors > 3)) {
+                            nextGrid[col][row] = 0;
+                        } else if (cell === 0 && numNeighbors === 3) {
+                            nextGrid[col][row] = 1;
+                        }
+                    }
+                }
+                grid = nextGrid;
+                draw();
+
+                // SLOW DOWN LOGIC:
+                // Instead of calling the next frame immediately, we wait [refreshRate] ms
+                setTimeout(() => {
+                    requestAnimationFrame(update);
+                }, refreshRate);
+            }
+
+            // Start the loop
+            update();
+        })();
+    </script>
+</div>

@@ -1,0 +1,68 @@
+<div class="card shipping-card">
+    <div class="card-header">
+        <span class="card-title">Deliveries</span>
+    </div>
+
+    <div class="card-body">
+        <div class="scroll-y-content">
+        {% for pkg in packages %}
+        <div class="track-info">
+            <div style="display:flex; justify-content:space-between;">
+                <span style="font-weight:600;">{{ pkg['number'] }}</span>
+                <span class="track-id">{{ pkg['track_info']['latest_status']['sub_status'] }}</span>
+            </div>
+            
+            <div class="timeline">
+                {% for milestone in pkg['track_info']['milestone'] %}
+                    {% if milestone['time_utc'] != None or milestone['time_utc'] == None and loop.previtem is defined and loop.previtem['time_utc'] != None %}
+                        <div class="tl-item {{ 'active' if milestone['time_utc'] != None else '' }}">
+                            <div class="tl-dot"></div>
+                            <div class="tl-status">{{ milestone['key_stage'] }}</div>
+                            <div class="tl-time">{{ "N/A" if milestone['time_utc'] == None else milestone['time_utc'] }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% if not loop.last %}
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 10px 0;">
+        {% endif %}
+        
+        {% else %}
+            <div style="text-align: center; color: var(--text-muted); margin-top: 20px;">
+                No active shipments
+            </div>
+        {% endfor %}
+        </div>
+        <div class="scroll-y-content">
+        {% for pkg in packages %}
+        <div class="track-info">
+            <div style="display:flex; justify-content:space-between;">
+                <span style="font-weight:600;">{{ pkg['number'] }}</span>
+                <span class="track-id">{{ pkg['track_info']['latest_status']['sub_status'] }}</span>
+            </div>
+            
+            <div class="timeline">
+                {% for milestone in pkg['track_info']['milestone'] %}
+                    {% if milestone['time_utc'] != None or milestone['time_utc'] == None and loop.previtem is defined and loop.previtem['time_utc'] != None %}
+                        <div class="tl-item {{ 'active' if milestone['time_utc'] != None else '' }}">
+                            <div class="tl-dot"></div>
+                            <div class="tl-status">{{ milestone['key_stage'] }}</div>
+                            <div class="tl-time">{{ "N/A" if milestone['time_utc'] == None else milestone['time_utc'] }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% if not loop.last %}
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 10px 0;">
+        {% endif %}
+        
+        {% else %}
+            <div style="text-align: center; color: var(--text-muted); margin-top: 20px;">
+                No active shipments
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>

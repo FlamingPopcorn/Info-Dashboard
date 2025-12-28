@@ -1,0 +1,33 @@
+<div class="card events-card">
+    <div class="card-header">
+        <span class="card-title">Agenda</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">{{ date_today }}</span>
+    </div>
+
+    <div class="card-body">
+        <div class="event-list">
+            {% for event in events %}
+            <div class="event-item">
+                <div class="event-item-border">
+                <div class="event-item-header">
+                    <div class="event-time"> {#-I for UNIX and #I for windows #}
+                        <span>{{ event.start.strftime('%b %d, %#I:%S %p') }}</span>
+                    </div>
+                    {% if event.location %}
+                    <div class="event-location">{{ event.location }}</div>
+                    {% endif %}
+                </div>
+                <div class="event-info">
+                    <div class="event-title">{{ event.summary }}</div>
+                </div>
+                <div class="event-pill" style="background-color: {{ event.color if event.color else 'var(--accent-primary)' }}"></div>
+                </div>
+            </div>
+            {% else %}
+                <div style="text-align: center; color: var(--text-muted); margin-top: 20px;">
+                    No upcoming events
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

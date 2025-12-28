@@ -1,0 +1,28 @@
+<div class="card month-card">
+    <div class="calendar-month-header">
+        <span>{{ month_name }} {{ year }}</span>
+        </div>
+    <div class="card-body">
+    <div class="calendar-weekdays">
+        <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
+    </div>
+
+    <div class="calendar-days">
+        {% for week in calendar_weeks %}
+            {% for day_obj in week %}
+                
+                {% if day_obj.day %}
+                    <div class="day-cell 
+                                {{ 'today' if day_obj.is_today else '' }} 
+                                {{ 'day-has-event' if day_obj.has_event else '' }}">
+                        {{ day_obj.day }}
+                    </div>
+                {% else %}
+                    <div class="day-cell"></div>
+                {% endif %}
+                
+            {% endfor %}
+        {% endfor %}
+    </div>
+    </div>
+</div>
