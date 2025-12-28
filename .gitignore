@@ -1,3 +1,4 @@
 .env
 __pycache__/
 .vscode/
+network_db.json

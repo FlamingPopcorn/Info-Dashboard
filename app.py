@@ -29,6 +29,7 @@ ICAL_URL = getenv("ICAL_URL")
 OPENWEATHER_TOKEN = getenv("OPENWEATHER_TOKEN")
 CITY = getenv("CITY")
 TRACK17_TOKEN = getenv("TRACK17_TOKEN")
+TRACK17_TRACKING = getenv("TRACK17_TRACKING")
 MONDAY_TOKEN = getenv("MONDAY_TOKEN")
 MONDAY_BOARD_ID = getenv("MONDAY_BOARD_ID")
 STEAM_TOKEN = getenv("STEAM_TOKEN")
@@ -159,7 +160,6 @@ def get_tasks():
                 case _:
                     task[title] = text
 
-            # Inside your loop, after getting task['due_date']:
             today_str = date.today().strftime("%Y-%m-%d")
 
             if task['due_date'] and task['due_date'] < today_str and task['status'] != 'Done':
@@ -181,9 +181,7 @@ def get_shipping():
         "Content-Type": "application/json"
     }
     
-    # List of tracking numbers you've already registered in their dashboard
-    # You can move this list to your .env or a database later
-    numbers = ["UUSC000015359599", "LP00784261169534", "9400150206217463973212", "887400357355", "UUSC000015417916"]
+    numbers = TRACK17_TRACKING.split(',')
 
     data = [{"number": n} for n in numbers]
     print(data)
